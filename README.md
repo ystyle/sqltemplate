@@ -40,7 +40,7 @@ func main() {
 	sqltpl := `
 insert into posts (id, created_at, title, content) values
 {{range $index, $item := .list -}}
-({{.ID}}, '2024-12-12 16:09:56', {{ .Title | lower}}, {{.Content}}) {{if last $index $.list}}{{else}}, {{end}}
+({{.ID}}, '2024-12-12 16:09:56', {{ .Title | upper}}, {{.Content}}) {{if last $index $.list}}{{else}}, {{end}}
 {{end}}
 `
 	// Prepare the data
@@ -56,8 +56,8 @@ insert into posts (id, created_at, title, content) values
 		"last": func(index int, list interface{}) bool {
 			return index == reflect.ValueOf(list).Len()-1
 		},
-		"lower": func(v string) string {
-			return strings.ToLower(v)
+		"upper": func(v string) string {
+			return strings.ToUpper(v)
 		},
 	})
 	tt, err = tt.Parse(sqltpl)
@@ -88,18 +88,17 @@ insert into posts (id, created_at, title, content) values
 log:
 ```shell
 insert into posts (id, created_at, title, content) values
-(?, '2024-12-12 16:09:56', ?, ?) , 
-(?, '2024-12-12 16:09:56', ?, ?) , 
-(?, '2024-12-12 16:09:56', ?, ?) 
-args len: 6
+(?, '2024-12-12 16:09:56', ?, ?), 
+(?, '2024-12-12 16:09:56', ?, ?), 
+(?, '2024-12-12 16:09:56', ?, ?)
+args len: 9
 
 2024/12/16 18:11:10 main.go:56 
 [5.831ms] [rows:3] 
 insert into posts (id, created_at, title, content) values
-(1, '2024-12-12 16:09:56', 'aunt mildred', 'bone china tea set') , 
-(2, '2024-12-12 16:09:56', 'uncle john', 'moleskin pants') , 
-(3, '2024-12-12 16:09:56', 'cousin rodney', '') 
-
+(1, '2024-12-12 16:09:56', 'AUNT MILDRED', 'bone china tea set'), 
+(2, '2024-12-12 16:09:56', 'UNCLE JOHN', 'moleskin pants'), 
+(3, '2024-12-12 16:09:56', 'COUSIN RODNEY', '')
 ```
 
 ### Note on Code Origin
