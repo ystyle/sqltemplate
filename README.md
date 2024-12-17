@@ -101,3 +101,7 @@ insert into posts (id, created_at, title, content) values
 (3, '2024-12-12 16:09:56', 'cousin rodney', '') 
 
 ```
+
+### Note on Code Origin
+
+A significant portion of the code in this project is derived from the Go standard library's `text/template` package. This library extends and specializes that functionality for the specific use case of generating SQL statements.
